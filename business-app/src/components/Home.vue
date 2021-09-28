@@ -9,10 +9,10 @@
         </div>
         <div class="temperature">
           <div class="tLow">
-            {{ weatherData[0].data.next_6_hours.details.air_temperature_min }}
+            <!-- {{ weatherData[0].data.next_6_hours.details.air_temperature_min }} -->
           </div>
           <div class="tHigh">
-            {{ weatherData[0].data.next_6_hours.details.air_temperature_max }}
+            {{ getIndecesForAllDays() }}
           </div>
         </div>
       </div>
@@ -23,10 +23,16 @@
         </div>
         <div class="temperature">
           <div class="tLow">
-            {{ weatherData[1].data.next_6_hours.details.air_temperature_min }}
+            {{
+              weatherData[getIndexOfDayOfInterest("2021-09-22T15:00:00Z")].data
+                .next_6_hours.details.air_temperature_min
+            }}
           </div>
           <div class="tHigh">
-            {{ weatherData[1].data.next_6_hours.details.air_temperature_max }}
+            {{
+              weatherData[getIndexOfDayOfInterest("2021-09-22T15:00:00Z")].data
+                .next_6_hours.details.air_temperature_max
+            }}
           </div>
         </div>
       </div>
@@ -57,22 +63,48 @@ export default {
   data() {
     return {
       weatherData: [],
+      tLowNext1Day: null,
     };
   },
+
   methods: {
-    getDate(daysAhead) {
-      console.log(
-        "Date from now " +
-          moment()
-            .add(daysAhead, "days")
-            .format()
-            .slice(0, 10)
-      );
-      return moment()
-        .add(daysAhead, "days")
-        .format()
-        .slice(0, 10);
+    getIndexOfDayOfInterest(day) {
+      const indexForWeatherReport = this.weatherData
+        .map(function(e) {
+          return e.time;
+        })
+        .indexOf(day);
+      console.log("indexForWeatherReport: " + indexForWeatherReport);
+      return indexForWeatherReport;
     },
+
+    getIndecesForAllDays() {
+      var indices = [];
+      var arr = [
+        { time: "2021-09-29" },
+
+        { time: "2021-09-29" },
+
+        { time: "2021-09-30" },
+      ];
+      // console.log('arr.time '+arr[2]['time'])
+
+      var dateOfInterest = "2021-09-29";
+      for(var n=0; n<arr.length; n++){
+        if(arr[n]['time'] === dateOfInterest){
+          indices.push(n)
+        }
+      // var idx = arr[n]['time'].indexOf(element);
+      // console.log(arr[n]['time'])
+      // while (idx != -1) {
+      //   indices.push(idx);
+      //   idx = arr[n]['time'].indexOf(element, idx + 1);
+      // }
+    }
+    
+      console.log('indices '+indices);
+    },
+
     getDaysAhead(daysAhead) {
       return moment()
         .add(daysAhead, "days")
@@ -107,7 +139,6 @@ export default {
   flex-direction: column;
   flex: 1;
 }
-
 .weather-objects {
   margin-top: auto;
   border-radius: 15px;
@@ -124,7 +155,7 @@ export default {
   align-items: center;
   flex-flow: column;
   border: solid 1px green;
-  /* width: 14%; */
+
   flex: 1;
   border-radius: 15px;
 }
@@ -135,14 +166,9 @@ export default {
   margin: 0;
   align-content: flex-start;
 
-  /* vertical-align: middle; */
-  /* max-width: 50%; */
-  /* border: solid 1px black; */
-
   color: rgb(0, 0, 0);
   font-size: 18px;
   font-weight: bold;
-  /* vertical-align: top; */
 }
 .icon {
   display: flex;
@@ -153,7 +179,6 @@ export default {
   height: 60%;
   width: 100%;
   color: goldenrod;
-  /* background: coral; */
 }
 .temperature {
   flex: 1;
@@ -163,11 +188,9 @@ export default {
   display: flex;
   height: 20%;
   width: 100%;
-  /* margin-top: auto; */
+
   color: rgb(128, 128, 128);
   font-size: 20px;
-
-  /* text-align: center; */
 }
 .temperature .tLow {
   width: 50%;
@@ -175,11 +198,10 @@ export default {
   align-items: center;
   color: rgb(128, 128, 128);
   font-size: 20px;
-  /* background: rosybrown; */
 }
 .temperature .tHigh {
   width: 50%;
-  /* background: salmon; */
+
   justify-content: center;
   align-items: center;
   color: rgb(29, 29, 29);
