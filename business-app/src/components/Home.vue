@@ -3,40 +3,96 @@
     <p>Hello</p>
     <div class="weather-objects">
       <div class="detailed-weather">
-        <p class="day">Mon</p>
+        <p class="day">{{ getDaysAhead(1) }}</p>
         <div class="icon">
-          <i class="fas fa-bolt"></i>
+          <i class="fas fa-sun"></i>
         </div>
         <div class="temperature">
-          <class class="tLow">-2</class>
-          <class class="tHigh">2</class>
+          <div class="tLow">
+            {{ weatherData[0].data.next_6_hours.details.air_temperature_min }}
+          </div>
+          <div class="tHigh">
+            {{ weatherData[0].data.next_6_hours.details.air_temperature_max }}
+          </div>
         </div>
       </div>
       <div class="detailed-weather">
-        <p class="day">Tue</p>
-      </div>
-
-      <div class="detailed-weather">
-        <p class="day">Wed</p>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">Thur</p>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">Fri</p>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">Sat</p>
+        <p class="day">{{ getDaysAhead(2) }}</p>
+        <div class="icon">
+          <i class="fas fa-cloud-rain"></i>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{ weatherData[1].data.next_6_hours.details.air_temperature_min }}
+          </div>
+          <div class="tHigh">
+            {{ weatherData[1].data.next_6_hours.details.air_temperature_max }}
+          </div>
+        </div>
       </div>
       <div class="detailed-weather">
-        <p class="day">Sun</p>
+        <p class="day">{{ getDaysAhead(3) }}</p>
+      </div>
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(4) }}</p>
+      </div>
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(5) }}</p>
+      </div>
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(6) }}</p>
+      </div>
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(7) }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import moment from "moment";
+export default {
+  name: "Home",
+  components: {},
+  data() {
+    return {
+      weatherData: [],
+    };
+  },
+  methods: {
+    getDate(daysAhead) {
+      console.log(
+        "Date from now " +
+          moment()
+            .add(daysAhead, "days")
+            .format()
+            .slice(0, 10)
+      );
+      return moment()
+        .add(daysAhead, "days")
+        .format()
+        .slice(0, 10);
+    },
+    getDaysAhead(daysAhead) {
+      return moment()
+        .add(daysAhead, "days")
+        .format("dddd");
+    },
+    async fetchWeatherData() {
+      const response = await fetch("http://localhost:5002/timeseries");
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Data fetched sucssefully!");
+      }
+      return data;
+    },
+  },
+  async created() {
+    this.weatherData = await this.fetchWeatherData();
+    // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
+    moment.locale("nb");
+  },
+};
 </script>
 
 <style scoped>
@@ -84,7 +140,7 @@ export default {};
   /* border: solid 1px black; */
 
   color: rgb(0, 0, 0);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   /* vertical-align: top; */
 }
@@ -96,6 +152,7 @@ export default {};
   font-size: 70px;
   height: 60%;
   width: 100%;
+  color: goldenrod;
   /* background: coral; */
 }
 .temperature {
@@ -109,11 +166,10 @@ export default {};
   /* margin-top: auto; */
   color: rgb(128, 128, 128);
   font-size: 20px;
-  
+
   /* text-align: center; */
 }
 .temperature .tLow {
-  
   width: 50%;
   justify-content: center;
   align-items: center;
@@ -122,7 +178,6 @@ export default {};
   /* background: rosybrown; */
 }
 .temperature .tHigh {
-  
   width: 50%;
   /* background: salmon; */
   justify-content: center;
