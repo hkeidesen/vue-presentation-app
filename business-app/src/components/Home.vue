@@ -3,53 +3,187 @@
     <p>Hello</p>
     <div class="weather-objects">
       <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(1) }}</p>
+        <p class="day">{{ getDaysAhead(1)["dateNameAhead"].slice(0, 10) }}</p>
         <div class="icon">
-          <i class="fas fa-sun"></i>
-        </div>
-        <div class="temperature">
-          <div class="tLow">
-            <!-- {{ weatherData[0].data.next_6_hours.details.air_temperature_min }} -->
-          </div>
-          <div class="tHigh">
-            {{ getIndecesForAllDays() }}
-          </div>
-        </div>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(2) }}</p>
-        <div class="icon">
-          <i class="fas fa-cloud-rain"></i>
+          <img
+            :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
+          />
         </div>
         <div class="temperature">
           <div class="tLow">
             {{
-              weatherData[getIndexOfDayOfInterest("2021-09-22T15:00:00Z")].data
-                .next_6_hours.details.air_temperature_min
-            }}
+              getHighAndLowTemperatures(
+                getDaysAhead(1)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
           </div>
           <div class="tHigh">
             {{
-              weatherData[getIndexOfDayOfInterest("2021-09-22T15:00:00Z")].data
-                .next_6_hours.details.air_temperature_max
-            }}
+              getHighAndLowTemperatures(
+                getDaysAhead(1)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
+      </div>
+
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(2)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(2)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(2)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(2)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
+      </div>
+
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(3)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(3)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(3)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°C
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(3)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
+      </div>
+
+      <div class="detailed-weather">
+        <p class="day">{{ getDaysAhead(4)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(4)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(4)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(4)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°C
           </div>
         </div>
       </div>
       <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(3) }}</p>
+        <p class="day">{{ getDaysAhead(5)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(5)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(5)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(5)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
       </div>
       <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(4) }}</p>
+        <p class="day">{{ getDaysAhead(6)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(4)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(6)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(6)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
       </div>
       <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(5) }}</p>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(6) }}</p>
-      </div>
-      <div class="detailed-weather">
-        <p class="day">{{ getDaysAhead(7) }}</p>
+        <p class="day">{{ getDaysAhead(7)["dateNameAhead"] }}</p>
+        <div class="icon">
+          <div class="icon">
+            <img
+              :src="require(`../assets/icons/${determineWeatherIcon(7)}.png`)"
+            />
+          </div>
+        </div>
+        <div class="temperature">
+          <div class="tLow">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(7)["dateAhead"].slice(0, 10)
+              )["min_temp"]
+            }}°
+          </div>
+          <div class="tHigh">
+            {{
+              getHighAndLowTemperatures(
+                getDaysAhead(7)["dateAhead"].slice(0, 10)
+              )["max_temp"]
+            }}°
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +197,7 @@ export default {
   data() {
     return {
       weatherData: [],
-      tLowNext1Day: null,
+      timer: "",
     };
   },
 
@@ -74,41 +208,48 @@ export default {
           return e.time;
         })
         .indexOf(day);
-      console.log("indexForWeatherReport: " + indexForWeatherReport);
+      console.log("indexForWeatherReport: ", indexForWeatherReport);
       return indexForWeatherReport;
     },
+    determineWeatherIcon(idx) {
+      const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
+      console.log("icon", icon);
+      return icon;
+    },
+    getHighAndLowTemperatures(dateOfInterest) {
+      //this function is used to get the max and min temperature for a certain day
+      // create an empty array, which is is used to store the indexes of the array for a certain day,
+      // i.e.: if the day 2021-09-22 has index 1,2,...,n, the index will be stored here.
 
-    getIndecesForAllDays() {
-      var indices = [];
-      var arr = [
-        { time: "2021-09-29" },
+      var temp_array = [];
+      // uses the weatherData array that is obtained from the met.no-api call
+      var arr = this.weatherData;
 
-        { time: "2021-09-29" },
-
-        { time: "2021-09-30" },
-      ];
       // console.log('arr.time '+arr[2]['time'])
-
-      var dateOfInterest = "2021-09-29";
-      for(var n=0; n<arr.length; n++){
-        if(arr[n]['time'] === dateOfInterest){
-          indices.push(n)
+      for (var n = 0; n < arr.length; n++) {
+        if (arr[n]["time"].slice(0, 10) === dateOfInterest) {
+          temp_array.push(
+            this.weatherData[n].data.instant.details.air_temperature
+          );
         }
-      // var idx = arr[n]['time'].indexOf(element);
-      // console.log(arr[n]['time'])
-      // while (idx != -1) {
-      //   indices.push(idx);
-      //   idx = arr[n]['time'].indexOf(element, idx + 1);
-      // }
-    }
-    
-      console.log('indices '+indices);
+      }
+      const max_temp = Math.max(...temp_array);
+      const min_temp = Math.min(...temp_array);
+      // console.log('max_temp', Math.max(...temp_array))
+      // console.log('temp', temp_array)
+      return { max_temp, min_temp };
+      // console.log('logging weather data', this.weatherData[indices[0]].data.instant.details.air_temperature);
     },
 
     getDaysAhead(daysAhead) {
-      return moment()
+      // returns the date of format yyyy-mm-ddThh:mm:ssZ
+      const dateNameAhead = moment()
         .add(daysAhead, "days")
         .format("dddd");
+      const dateAhead = moment()
+        .add(daysAhead, "days")
+        .format();
+      return { dateNameAhead, dateAhead };
     },
     async fetchWeatherData() {
       const response = await fetch("http://localhost:5002/timeseries");
@@ -118,11 +259,15 @@ export default {
       }
       return data;
     },
+    cancelAutoUpdate() {
+      clearInterval(this.timer);
+    },
   },
   async created() {
     this.weatherData = await this.fetchWeatherData();
     // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
+    this.timer = setInterval(this.fetchWeatherData, 100000);
   },
 };
 </script>
@@ -133,7 +278,7 @@ export default {
   margin-left: 25px;
   width: 750px;
   height: 500px;
-  border: solid 2px red;
+  /* border: solid 2px red; */
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -142,7 +287,7 @@ export default {
 .weather-objects {
   margin-top: auto;
   border-radius: 15px;
-  border: solid 2px blue;
+
   height: 30%;
   flex-direction: row;
   display: flex;
@@ -154,10 +299,12 @@ export default {
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  border: solid 1px green;
-
   flex: 1;
-  border-radius: 15px;
+  border-radius: 10px;
+  margin-right: 2px;
+  margin-left: 2px;
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
 }
 .day {
   padding-top: 5px;
@@ -165,7 +312,6 @@ export default {
   height: 20%;
   margin: 0;
   align-content: flex-start;
-
   color: rgb(0, 0, 0);
   font-size: 18px;
   font-weight: bold;
@@ -176,9 +322,13 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 70px;
-  height: 60%;
-  width: 100%;
-  color: goldenrod;
+  max-width: 70px;
+}
+img {
+  max-width: 120%;
+  max-height: 120%;
+  display: block;
+  margin: 0 auto;
 }
 .temperature {
   flex: 1;
@@ -190,21 +340,24 @@ export default {
   width: 100%;
 
   color: rgb(128, 128, 128);
-  font-size: 20px;
 }
 .temperature .tLow {
-  width: 50%;
+  width: 60%;
   justify-content: center;
   align-items: center;
+  margin-left: 5px;
   color: rgb(128, 128, 128);
-  font-size: 20px;
+  font-size: 18px;
 }
 .temperature .tHigh {
-  width: 50%;
-
+  width: 60%;
+  margin-right: 5px;
   justify-content: center;
   align-items: center;
   color: rgb(29, 29, 29);
-  font-size: 20px;
+  font-size: 18px;
+}
+
+#demo {
 }
 </style>
