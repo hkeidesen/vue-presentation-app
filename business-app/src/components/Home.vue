@@ -10,7 +10,7 @@
           />
         </div>
         <div class="temperature">
-          <div class="tLow">
+          <div :key="renderWeatherKey" class="tLow">
             {{
               getHighAndLowTemperatures(
                 getDaysAhead(1)["dateAhead"].slice(0, 10)
@@ -197,44 +197,39 @@ export default {
   data() {
     return {
       weatherData: [],
-      timer: "",
+      timer: '',
+      renderWeatherKey:0,
+      temp_array: [],
+      icon: '',
     };
   },
 
   methods: {
-    getIndexOfDayOfInterest(day) {
-      const indexForWeatherReport = this.weatherData
-        .map(function(e) {
-          return e.time;
-        })
-        .indexOf(day);
-      console.log("indexForWeatherReport: ", indexForWeatherReport);
-      return indexForWeatherReport;
-    },
     determineWeatherIcon(idx) {
-      const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
-      console.log("icon", icon);
-      return icon;
+      this.icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
+      console.log("icon", this.icon);
+      return this.icon;
     },
     getHighAndLowTemperatures(dateOfInterest) {
       //this function is used to get the max and min temperature for a certain day
       // create an empty array, which is is used to store the indexes of the array for a certain day,
       // i.e.: if the day 2021-09-22 has index 1,2,...,n, the index will be stored here.
 
-      var temp_array = [];
       // uses the weatherData array that is obtained from the met.no-api call
       var arr = this.weatherData;
 
+      //clear the array before assigning new values again.
+      this.temp_array = []
       // console.log('arr.time '+arr[2]['time'])
       for (var n = 0; n < arr.length; n++) {
         if (arr[n]["time"].slice(0, 10) === dateOfInterest) {
-          temp_array.push(
+          this.temp_array.push(
             this.weatherData[n].data.instant.details.air_temperature
           );
         }
       }
-      const max_temp = Math.max(...temp_array);
-      const min_temp = Math.min(...temp_array);
+      const max_temp = Math.max(...this.temp_array);
+      const min_temp = Math.min(...this.temp_array);
       // console.log('max_temp', Math.max(...temp_array))
       // console.log('temp', temp_array)
       return { max_temp, min_temp };
@@ -256,18 +251,26 @@ export default {
       const data = await response.json();
       if (response.ok) {
         console.log("Data fetched sucssefully!");
+        this.renderWeatherKey++
       }
+      // console.log('data', data)
       return data;
     },
     cancelAutoUpdate() {
       clearInterval(this.timer);
     },
   },
+  // computed:{
+  //   weatherData: function(){
+  //     return this.fetchWeatherData
+  //   }
+  // },
   async created() {
     this.weatherData = await this.fetchWeatherData();
-    // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
-    this.timer = setInterval(this.fetchWeatherData, 100000);
+    setInterval(() => this.weatherData = this.fetchWeatherData(), 10000)
+    // setInterval(() => this.timer = this.getHighAndLowTemperatures(), 1000)
+    // this.timer = setInterval( this.fetchWeatherData, 1000);
   },
 };
 </script>
@@ -356,8 +359,5 @@ img {
   align-items: center;
   color: rgb(29, 29, 29);
   font-size: 18px;
-}
-
-#demo {
 }
 </style>
