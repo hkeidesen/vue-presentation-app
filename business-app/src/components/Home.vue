@@ -1,6 +1,17 @@
 <template>
   <div class="weather-card">
     <p>Hello</p>
+    <div class="weather-now">
+      <div class="iconWeatherNow">
+        <img
+          id="weatherNowIcon"
+          :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
+        />
+      </div>
+      <div class="temp-now">
+        20degC
+      </div>
+    </div>
     <div class="weather-objects">
       <div class="detailed-weather">
         <p class="day">{{ getDaysAhead(1)["dateNameAhead"].slice(0, 10) }}</p>
@@ -197,10 +208,10 @@ export default {
   data() {
     return {
       weatherData: [],
-      timer: '',
-      renderWeatherKey:0,
+      timer: "",
+      renderWeatherKey: 0,
       temp_array: [],
-      icon: '',
+      icon: "",
     };
   },
 
@@ -219,7 +230,7 @@ export default {
       var arr = this.weatherData;
 
       //clear the array before assigning new values again.
-      this.temp_array = []
+      this.temp_array = [];
       // console.log('arr.time '+arr[2]['time'])
       for (var n = 0; n < arr.length; n++) {
         if (arr[n]["time"].slice(0, 10) === dateOfInterest) {
@@ -251,7 +262,7 @@ export default {
       const data = await response.json();
       if (response.ok) {
         console.log("Data fetched sucssefully!");
-        this.renderWeatherKey++
+        this.renderWeatherKey++;
       }
       // console.log('data', data)
       return data;
@@ -268,7 +279,7 @@ export default {
   async created() {
     this.weatherData = await this.fetchWeatherData();
     moment.locale("nb");
-    setInterval(() => this.weatherData = this.fetchWeatherData(), 10000)
+    setInterval(async () => (this.weatherData = await  this.fetchWeatherData()), 10000);
     // setInterval(() => this.timer = this.getHighAndLowTemperatures(), 1000)
     // this.timer = setInterval( this.fetchWeatherData, 1000);
   },
@@ -276,21 +287,47 @@ export default {
 </script>
 
 <style scoped>
+.weather-now {
+  border: solid 1px cyan;
+  height: 25%;
+  width: 33%;
+  /* position: relative;
+  top: 0px;
+  left: 0px; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: flex-start;
+}
+.temp-now {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+}
+#weatherNowIcon {
+  max-width: 100%;
+  max-height: 100%; 
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+}
 .weather-card {
   position: absolute;
   margin-left: 25px;
   width: 750px;
   height: 500px;
-  /* border: solid 2px red; */
+  border: solid 2px red;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
+
 .weather-objects {
   margin-top: auto;
   border-radius: 15px;
-
   height: 30%;
   flex-direction: row;
   display: flex;
@@ -333,6 +370,7 @@ img {
   display: block;
   margin: 0 auto;
 }
+
 .temperature {
   flex: 1;
   flex-flow: row;

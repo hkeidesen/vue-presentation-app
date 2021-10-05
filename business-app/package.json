@@ -9,7 +9,6 @@
         "backend": "json-server --watch db.json --port 5002"
     },
     "dependencies": {
-        "axios": "^0.22.0",
         "core-js": "^3.6.5",
         "json-server": "^0.16.3",
         "moment": "^2.29.1",
