@@ -21,19 +21,19 @@
           />
         </div>
         <div class="temperature">
-          <div :key="renderWeatherKey" class="tLow">
+          <div  class="tLow">
             {{
               getHighAndLowTemperatures(
                 getDaysAhead(1)["dateAhead"].slice(0, 10)
               )["min_temp"]
-            }}°
+            }}
           </div>
           <div class="tHigh">
             {{
               getHighAndLowTemperatures(
                 getDaysAhead(1)["dateAhead"].slice(0, 10)
               )["max_temp"]
-            }}°
+            }}
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
 
-      <div class="detailed-weather">
+       <div class="detailed-weather">
         <p class="day">{{ getDaysAhead(3)["dateNameAhead"] }}</p>
         <div class="icon">
           <div class="icon">
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="detailed-weather">
+      <!--<div class="detailed-weather">
         <p class="day">{{ getDaysAhead(4)["dateNameAhead"] }}</p>
         <div class="icon">
           <div class="icon">
@@ -170,7 +170,8 @@
           </div>
         </div>
       </div>
-      <div class="detailed-weather">
+
+       <div class="detailed-weather">
         <p class="day">{{ getDaysAhead(7)["dateNameAhead"] }}</p>
         <div class="icon">
           <div class="icon">
@@ -195,7 +196,7 @@
             }}°
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -208,20 +209,19 @@ export default {
   data() {
     return {
       weatherData: [],
-      timer: "",
-      renderWeatherKey: 0,
-      temp_array: [],
+      timer: "",   
+      //temp_array: [],
       icon: "",
     };
   },
 
   methods: {
-    determineWeatherIcon(idx) {
-      this.icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
-      console.log("icon", this.icon);
+     determineWeatherIcon(idx) {
+      this.icon =  this.weatherData[idx].data.next_12_hours.summary.symbol_code;
+      console.log("icon:", this.icon);
       return this.icon;
     },
-    getHighAndLowTemperatures(dateOfInterest) {
+    getHighAndLowTemperatures(dateOfInterest) { // this function causes an infinte loop...
       //this function is used to get the max and min temperature for a certain day
       // create an empty array, which is is used to store the indexes of the array for a certain day,
       // i.e.: if the day 2021-09-22 has index 1,2,...,n, the index will be stored here.
@@ -231,7 +231,7 @@ export default {
 
       //clear the array before assigning new values again.
       this.temp_array = [];
-      // console.log('arr.time '+arr[2]['time'])
+      
       for (var n = 0; n < arr.length; n++) {
         if (arr[n]["time"].slice(0, 10) === dateOfInterest) {
           this.temp_array.push(
@@ -241,11 +241,8 @@ export default {
       }
       const max_temp = Math.max(...this.temp_array);
       const min_temp = Math.min(...this.temp_array);
-      // console.log('max_temp', Math.max(...temp_array))
-      // console.log('temp', temp_array)
       return { max_temp, min_temp };
-      // console.log('logging weather data', this.weatherData[indices[0]].data.instant.details.air_temperature);
-    },
+      },
 
     getDaysAhead(daysAhead) {
       // returns the date of format yyyy-mm-ddThh:mm:ssZ
@@ -262,26 +259,17 @@ export default {
       const data = await response.json();
       if (response.ok) {
         console.log("Data fetched sucssefully!");
-        this.renderWeatherKey++;
+        
       }
       // console.log('data', data)
       return data;
     },
-    cancelAutoUpdate() {
-      clearInterval(this.timer);
-    },
   },
-  // computed:{
-  //   weatherData: function(){
-  //     return this.fetchWeatherData
-  //   }
-  // },
+
   async created() {
     this.weatherData = await this.fetchWeatherData();
     moment.locale("nb");
-    setInterval(async () => (this.weatherData = await  this.fetchWeatherData()), 10000);
-    // setInterval(() => this.timer = this.getHighAndLowTemperatures(), 1000)
-    // this.timer = setInterval( this.fetchWeatherData, 1000);
+    setInterval(async () => (this.weatherData = await this.fetchWeatherData()), 10000);
   },
 };
 </script>
