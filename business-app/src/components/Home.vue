@@ -267,7 +267,7 @@ export default {
     this.weatherData = await this.fetchWeatherData();
     // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
-    this.timer = setInterval(this.fetchWeatherData, 100000);
+    setInterval(async () => (this.weatherData = await this.fetchWeatherData()), 10000);
   },
 };
 </script>
