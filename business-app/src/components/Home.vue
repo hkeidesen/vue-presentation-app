@@ -1,6 +1,17 @@
 <template>
   <div class="weather-card">
     <p>Hello</p>
+    <div class="weather-now">
+      <div class="iconWeatherNow">
+        <img
+          id="weatherNowIcon"
+          :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
+        />
+      </div>
+      <div class="temp-now">
+        20degC
+      </div>
+    </div>
     <div class="weather-objects">
       <div class="detailed-weather">
         <p class="day">{{ getDaysAhead(1)["dateNameAhead"].slice(0, 10) }}</p>
@@ -267,12 +278,35 @@ export default {
     this.weatherData = await this.fetchWeatherData();
     // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
-    setInterval(async () => (this.weatherData = await this.fetchWeatherData()), 10000);
+    setInterval(
+      async () => (this.weatherData = await this.fetchWeatherData()),
+      10000
+    );
   },
 };
 </script>
 
 <style scoped>
+.weather-now {
+  border: solid 1px cyan;
+  height: 25%;
+  width: 33%;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  align-content: start
+}
+.temp-now {
+  flex: 0 0 auto;
+  margin: 10px;
+}
+#weatherNowIcon {
+  flex: 0 0 auto;
+  margin: 10px;
+}
 .weather-card {
   position: absolute;
   margin-left: 25px;
