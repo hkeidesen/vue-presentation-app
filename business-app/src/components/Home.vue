@@ -318,7 +318,7 @@ export default {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  height: 100%;
+  height: 90%;
   font-size: 70px;
   font-weight: 900;
 }
@@ -329,7 +329,7 @@ export default {
   justify-content: space-around;
   align-content: stretch;
   align-items: flex-start;
-  height: 100%;
+  height: 70%;
   width: 6em;
 }
 
