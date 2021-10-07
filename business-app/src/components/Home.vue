@@ -80,7 +80,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(3)["dateAhead"].slice(0, 10)
               )["min_temp"]
-            }}°C
+            }}°
           </div>
           <div class="tHigh">
             {{
@@ -114,7 +114,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(4)["dateAhead"].slice(0, 10)
               )["max_temp"]
-            }}°C
+            }}°
           </div>
         </div>
       </div>
@@ -266,7 +266,7 @@ export default {
       const response = await fetch("http://localhost:5002/timeseries");
       const data = await response.json();
       if (response.ok) {
-        console.log("Data fetched sucssefully!");
+        console.log("Data fetched succesfully!");
       }
       return data;
     },
@@ -295,9 +295,9 @@ export default {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: start;
-  align-items: start;
-  align-content: start
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 .temp-now {
   flex: 0 0 auto;
@@ -390,8 +390,5 @@ img {
   align-items: center;
   color: rgb(29, 29, 29);
   font-size: 18px;
-}
-
-#demo {
 }
 </style>
