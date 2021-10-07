@@ -1,15 +1,20 @@
 <template>
   <div class="weather-card">
-    <p>Hello</p>
+    <p>Værmelding for Sluppen</p>
     <div class="weather-now">
-      <div class="iconWeatherNow">
+      <div class="weather-now iconWeatherNow">
         <img
-          id="weatherNowIcon"
+          id="weather weatherNowIcon"
           :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
         />
       </div>
-      <div class="temp-now">
-        20degC
+      <div class="weather-now temp-now">
+        20°
+      </div>
+      <div class="weather-now detailsWeatherNow">
+        <div class="weather-now detailsWeatherNow percipitation">Regn:</div>
+        <div class="weather-now detailsWeatherNow humidity">Fuktighet:</div>
+        <div class="weather-now detailsWeatherNow wind">Vind:</div>
       </div>
     </div>
     <div class="weather-objects">
@@ -287,26 +292,6 @@ export default {
 </script>
 
 <style scoped>
-.weather-now {
-  border: solid 1px cyan;
-  height: 25%;
-  width: 33%;
-
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-.temp-now {
-  flex: 0 0 auto;
-  margin: 10px;
-}
-#weatherNowIcon {
-  flex: 0 0 auto;
-  margin: 10px;
-}
 .weather-card {
   position: absolute;
   margin-left: 25px;
@@ -317,6 +302,63 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+.weather-now {
+  /* border: solid 1px cyan; */
+  height: 25%;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
+.temp-now {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  height: 100%;
+  font-size: 70px;
+  font-weight: 900;
+}
+.detailsWeatherNow {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: flex-start;
+  height: 100%;
+  width: 6em;
+}
+
+.iconWeatherNow {
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  height: 100%;
+}
+.percipitation {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.humidity {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.wind {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
 }
 .weather-objects {
   margin-top: auto;
