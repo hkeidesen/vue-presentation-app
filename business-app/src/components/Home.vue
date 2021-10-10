@@ -1,16 +1,26 @@
 <template>
   <div class="weather-card">
-    <p>Hello</p>
+    <p>Værmelding for Sluppen</p>
     <div class="weather-now">
-      <div class="iconWeatherNow">
+      <div class="weather-now iconWeatherNow">
         <img
-          id="weatherNowIcon"
+          id="weather weatherNowIcon"
           :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
         />
       </div>
-      <div class="temp-now">
-        20degC
+      <div class="weather-now temp-now">
+        20°
       </div>
+      <div class="weather-now detailsWeatherNow">
+        <div class="weather-now detailsWeatherNow percipitation">Regn:</div>
+        <div class="weather-now detailsWeatherNow humidity">Fuktighet:</div>
+        <div class="weather-now detailsWeatherNow wind">Vind:</div>
+      </div>
+    </div>
+    <div class="temperature-graph">
+      <WeatherGraph 
+        :temperatureDataToPlot = weatherData
+      />
     </div>
     <div class="weather-objects">
       <div class="detailed-weather">
@@ -80,7 +90,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(3)["dateAhead"].slice(0, 10)
               )["min_temp"]
-            }}°C
+            }}°
           </div>
           <div class="tHigh">
             {{
@@ -114,7 +124,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(4)["dateAhead"].slice(0, 10)
               )["max_temp"]
-            }}°C
+            }}°
           </div>
         </div>
       </div>
@@ -202,9 +212,13 @@
 
 <script>
 import moment from "moment";
+import WeatherGraph from './WeatherGraph'
+
 export default {
   name: "Home",
-  components: {},
+  components: {
+    WeatherGraph
+  },
   data() {
     return {
       weatherData: [],
@@ -248,7 +262,8 @@ export default {
       const min_temp = Math.min(...temp_array);
       // console.log('max_temp', Math.max(...temp_array))
       // console.log('temp', temp_array)
-      return { max_temp, min_temp };
+      // console.log('temp_array', temp_array)
+      return { max_temp, min_temp, temp_array };
       // console.log('logging weather data', this.weatherData[indices[0]].data.instant.details.air_temperature);
     },
 
@@ -266,7 +281,7 @@ export default {
       const response = await fetch("http://localhost:5002/timeseries");
       const data = await response.json();
       if (response.ok) {
-        console.log("Data fetched sucssefully!");
+        console.log("Data fetched succesfully!");
       }
       return data;
     },
@@ -287,26 +302,6 @@ export default {
 </script>
 
 <style scoped>
-.weather-now {
-  border: solid 1px cyan;
-  height: 25%;
-  width: 33%;
-
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: start;
-  align-items: start;
-  align-content: start
-}
-.temp-now {
-  flex: 0 0 auto;
-  margin: 10px;
-}
-#weatherNowIcon {
-  flex: 0 0 auto;
-  margin: 10px;
-}
 .weather-card {
   position: absolute;
   margin-left: 25px;
@@ -318,14 +313,87 @@ export default {
   flex-direction: column;
   flex: 1;
 }
+.weather-now {
+  /* border: solid 1px cyan; */
+  height: 25%;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
+
+.temp-now {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  height: 90%;
+  font-size: 70px;
+  font-weight: 900;
+}
+.detailsWeatherNow {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: flex-start;
+  height: 50%;
+  width: 6em;
+}
+
+.iconWeatherNow {
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  height: 80%;
+}
+.percipitation {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.humidity {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.wind {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+
+.temperature-graph {
+  /* border: 1px solid red; */
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  height: 70%;
+  position: flex-end;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
+}
 .weather-objects {
   margin-top: auto;
   border-radius: 15px;
-
   height: 30%;
+  /* width: 725px; */
   flex-direction: row;
   display: flex;
-  justify-content: stretch;
+  /* justify-content: stretch; */
+  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .detailed-weather {
   align-items: center;
@@ -390,8 +458,5 @@ img {
   align-items: center;
   color: rgb(29, 29, 29);
   font-size: 18px;
-}
-
-#demo {
 }
 </style>
