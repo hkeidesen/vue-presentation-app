@@ -1,6 +1,6 @@
 <template>
   <div class="weather-card">
-    <p>Værmelding for Sluppen</p>
+    <p>Værmelding for Sluppen, {{getDaysAhead(0)['dateNameAhead']}}, {{ getDaysAhead()['dateNow'] }}</p>
     <div class="weather-now">
       <div class="weather-now iconWeatherNow">
         <img
@@ -19,7 +19,27 @@
     </div>
     <div class="temperature-graph">
       <WeatherGraph 
-        :temperatureDataToPlot = weatherData
+        :temperatureDataToPlot = "[
+      3.8,
+      4.1,
+      3.8,
+      3.5,
+      4.2,
+      4.4,
+      3.9,
+      4.2,
+      5.4,
+      5.9,
+      8,
+      8.1,
+      8.1,
+      6.9,
+      7.2,
+      7,
+      6.1,
+      6,
+      5.7,
+    ]"
       />
     </div>
     <div class="weather-objects">
@@ -275,7 +295,8 @@ export default {
       const dateAhead = moment()
         .add(daysAhead, "days")
         .format();
-      return { dateNameAhead, dateAhead };
+      const dateNow = moment().format("MMM Do")
+      return { dateNameAhead, dateAhead, dateNow };
     },
     async fetchWeatherData() {
       const response = await fetch("http://localhost:5002/timeseries");
@@ -377,11 +398,13 @@ export default {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  height: 70%;
+  height: 10%;
   position: flex-end;
-  border-radius: 10px;
+  /* border-radius: 10px;
   -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
-  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42); */
+
+  
 }
 .weather-objects {
   margin-top: auto;
