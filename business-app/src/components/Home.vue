@@ -1,6 +1,9 @@
 <template>
   <div class="weather-card">
-    <p>Værmelding for Sluppen, {{getDaysAhead(0)['dateNameAhead']}}, {{ getDaysAhead()['dateNow'] }}</p>
+    <p>
+      Værmelding for Sluppen, {{ getDaysAhead(0)["dateNameAhead"] }},
+      {{ getDaysAhead()["dateNow"] }}
+    </p>
     <div class="weather-now">
       <div class="weather-now iconWeatherNow">
         <img
@@ -18,28 +21,19 @@
       </div>
     </div>
     <div class="temperature-graph">
-      <WeatherGraph 
-        :temperatureDataToPlot = "[
-      3.8,
-      4.1,
-      3.8,
-      3.5,
-      4.2,
-      4.4,
-      3.9,
-      4.2,
-      5.4,
-      5.9,
-      8,
-      8.1,
-      8.1,
-      6.9,
-      7.2,
-      7,
-      6.1,
-      6,
-      5.7,
-    ]"
+      <WeatherGraph
+        :temperatureDataToPlot="{values:[
+          { time: '00:01', temperature: -3.9 },
+          { time: '00:02', temperature: -4.1 },
+          { time: '00:03', temperature: 3.8 },
+          { time: '00:04', temperature: 3.5 },
+          { time: '00:05', temperature: 4.2 },
+          { time: '00:06', temperature: 4.4 },
+          { time: '00:07', temperature: 3.9 },
+          { time: '00:08', temperature: 4.2 },
+          { time: '00:09', temperature: 5.4 },
+          { time: '00:10', temperature: 5.9 },
+        ]}"
       />
     </div>
     <div class="weather-objects">
@@ -232,12 +226,12 @@
 
 <script>
 import moment from "moment";
-import WeatherGraph from './WeatherGraph'
+import WeatherGraph from "./WeatherGraph";
 
 export default {
   name: "Home",
   components: {
-    WeatherGraph
+    WeatherGraph,
   },
   data() {
     return {
@@ -295,7 +289,7 @@ export default {
       const dateAhead = moment()
         .add(daysAhead, "days")
         .format();
-      const dateNow = moment().format("MMM Do")
+      const dateNow = moment().format("MMM Do");
       return { dateNameAhead, dateAhead, dateNow };
     },
     async fetchWeatherData() {
@@ -403,8 +397,6 @@ export default {
   /* border-radius: 10px;
   -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
   box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42); */
-
-  
 }
 .weather-objects {
   /* border: 1px solid red; */
