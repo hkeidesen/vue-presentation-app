@@ -1,6 +1,7 @@
 <template>
-  <la-cartesian :width="750" :height="100" narrow :bound="[0, n => n + 5]" :data="values">
-    <la-area prop="temperature">
+<!-- use a function to determine the max and min bound  -->
+  <la-cartesian :width="750" :height="100" :bound="[-15, n => n + 10]" :data="values"> 
+    <la-area prop="temperature" color='goldenrod' animated=truev curve=curveBasis width=2>
       <g
         slot-scope="props"
         :fill="props.color">
@@ -20,7 +21,7 @@
         </text>
       </g>
     </la-area>
-    <la-x-axis prop="time" tickSize=5></la-x-axis>
+    <la-x-axis prop="time" tickSize=5 ></la-x-axis>
   </la-cartesian>
 </template>
 
@@ -44,8 +45,8 @@ export default {
   },
   data: () => ({
     values: [
-      { time: '00:01', temperature: 3.8 },
-      { time: '00:02', temperature: 4.1 },
+      { time: '00:01', temperature: -3.9 },
+      { time: '00:02', temperature: -4.1 },
       { time: '00:03', temperature: 3.8 },
       { time: '00:04', temperature: 3.5 },
       { time: '00:05', temperature: 4.2 },

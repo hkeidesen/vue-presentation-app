@@ -12,9 +12,9 @@
         20°
       </div>
       <div class="weather-now detailsWeatherNow">
-        <div class="weather-now detailsWeatherNow percipitation">Regn:</div>
-        <div class="weather-now detailsWeatherNow humidity">Fuktighet:</div>
-        <div class="weather-now detailsWeatherNow wind">Vind:</div>
+        <div class="weather-now detailsWeatherNow percipitation">Regn: 2%</div>
+        <div class="weather-now detailsWeatherNow humidity">Fuktighet: 6%</div>
+        <div class="weather-now detailsWeatherNow wind">Vind: 4 m/s</div>
       </div>
     </div>
     <div class="temperature-graph">
