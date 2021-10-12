@@ -398,7 +398,7 @@ export default {
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  height: 10%;
+  /* height: 2%; */
   position: flex-end;
   /* border-radius: 10px;
   -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
@@ -407,7 +407,8 @@ export default {
   
 }
 .weather-objects {
-  margin-top: auto;
+  /* border: 1px solid red; */
+  margin-top: 20px;
   border-radius: 15px;
   height: 30%;
   /* width: 725px; */

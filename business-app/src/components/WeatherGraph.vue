@@ -4,12 +4,13 @@
       <g
         slot-scope="props"
         :fill="props.color">
-        <rect
+        <!-- <rect
           :x="props.x - 5"
           :y="props.y - 5"
           width="5"
-          height="5">
-        </rect>
+          height="5"
+          >
+        </rect> -->
         <text
           :x="props.x"
           :y="props.y"
@@ -19,13 +20,12 @@
         </text>
       </g>
     </la-area>
-    <la-x-axis prop="time"></la-x-axis>
-    <la-y-axis></la-y-axis>
+    <la-x-axis prop="time" tickSize=5></la-x-axis>
   </la-cartesian>
 </template>
 
 <script>
-import { Cartesian, Area } from "laue";
+import { Cartesian, Area, XAxis } from "laue"; //see https://laue.js.org/
 
 export default {
   name: "WeatherGraph",
@@ -39,6 +39,8 @@ export default {
     LaCartesian: Cartesian,
     // LaLine: Line,
     LaArea: Area,
+    LaXAxis: XAxis,
+    // LaYAxis: YAxis,
   },
   data: () => ({
     values: [
@@ -67,4 +69,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
