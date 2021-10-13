@@ -9,9 +9,9 @@
     <la-area
       prop="temperature"
       color="goldenrod"
-      animated="truev"
-      curve="curveBasis"
-      width="2"
+      animated="true"
+      curve="curveBumpX"
+      :width=2
     >
       <g slot-scope="props" :fill="props.color">
         <!-- <rect
@@ -26,7 +26,7 @@
         </text>
       </g>
     </la-area>
-    <la-x-axis prop="time" tickSize="5"></la-x-axis>
+    <la-x-axis prop="time" :tickSize=5></la-x-axis>
   </la-cartesian>
 </template>
 
@@ -37,8 +37,8 @@ export default {
   name: "WeatherGraph",
   props: {
     temperatureDataToPlot: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {[ {time:'00:01', temperature: 0}]},
     },
   },
   components: {
@@ -48,16 +48,26 @@ export default {
     LaXAxis: XAxis,
     // LaYAxis: YAxis,
   },
-  data () {
-    return{
-      values: this.temperatureDataToPlot.values
+  data() {
+    return {
+      values: this.temperatureDataToPlot.values,
+    };
+  },
+  mounted() {
+    // console.log(this.temperatureDataToPlot.values[0]["temperature"]);
+  },
+  watch: {
+    temperatureDataToPlot: {
+      handler(newVal){
+        console.log('New data arrived!', newVal)
+        this.values = newVal
+
+      },
+      deep: true
     }
   }
-  ,
-  mounted() {
-    console.log(this.temperatureDataToPlot.values[0]["temperature"]);
-  },
 };
+
 </script>
 
 <style scoped></style>

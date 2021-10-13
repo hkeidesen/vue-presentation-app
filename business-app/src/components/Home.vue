@@ -300,9 +300,9 @@ export default {
       }
       return data;
     },
-    cancelAutoUpdate() {
-      clearInterval(this.timer);
-    },
+    // cancelAutoUpdate() {
+    //   clearInterval(this.timer);
+    // },
   },
   async created() {
     this.weatherData = await this.fetchWeatherData();
