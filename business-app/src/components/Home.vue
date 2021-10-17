@@ -22,8 +22,8 @@
     </div>
     <div class="temperature-graph">
       <WeatherGraph
-        :temperatureDataToPlot="{values:[
-          { time: '00:01', temperature: -3.9 },
+        :temperatureDataToPlot="[
+          { time: '00:00', temperature: -3.9 },
           { time: '00:02', temperature: -4.1 },
           { time: '00:03', temperature: 3.8 },
           { time: '00:04', temperature: 3.5 },
@@ -33,7 +33,7 @@
           { time: '00:08', temperature: 4.2 },
           { time: '00:09', temperature: 5.4 },
           { time: '00:10', temperature: 5.9 },
-        ]}"
+        ]"
       />
     </div>
     <div class="weather-objects">
@@ -251,6 +251,7 @@ export default {
       return indexForWeatherReport;
     },
     determineWeatherIcon(idx) {
+      //need an error handler here
       const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
       console.log("icon", icon);
       return icon;
@@ -300,9 +301,7 @@ export default {
       }
       return data;
     },
-    // cancelAutoUpdate() {
-    //   clearInterval(this.timer);
-    // },
+
   },
   async created() {
     this.weatherData = await this.fetchWeatherData();

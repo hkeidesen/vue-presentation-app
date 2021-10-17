@@ -4,15 +4,18 @@
     :width="750"
     :height="100"
     :bound="[-15, (n) => n + 10]"
-    :data="values"
+    :data="temperatureDataToPlot"
   >
-    <la-area
+    <la-area prop="temperature" 
+    animated
+    curve="curveBumpX">
+      <!-- <la-area
       prop="temperature"
       color="goldenrod"
       animated="true"
       curve="curveBumpX"
-      :width=2
-    >
+      :width="2"
+    > -->
       <g slot-scope="props" :fill="props.color">
         <!-- <rect
           :x="props.x - 5"
@@ -26,48 +29,27 @@
         </text>
       </g>
     </la-area>
-    <la-x-axis prop="time" :tickSize=5></la-x-axis>
+    <la-x-axis prop="time" :tickSize="5"></la-x-axis>
   </la-cartesian>
 </template>
 
 <script>
-import { Cartesian, Area, XAxis } from "laue"; //see https://laue.js.org/
+import { Cartesian, Area, XAxis } from "laue"; //see https://laue.js.org
 
 export default {
   name: "WeatherGraph",
   props: {
     temperatureDataToPlot: {
-      type: Object,
-      default: () => {[ {time:'00:01', temperature: 0}]},
+      type: Array,
     },
   },
   components: {
     LaCartesian: Cartesian,
-    // LaLine: Line,
     LaArea: Area,
     LaXAxis: XAxis,
-    // LaYAxis: YAxis,
   },
-  data() {
-    return {
-      values: this.temperatureDataToPlot.values,
-    };
-  },
-  mounted() {
-    // console.log(this.temperatureDataToPlot.values[0]["temperature"]);
-  },
-  watch: {
-    temperatureDataToPlot: {
-      handler(newVal){
-        console.log('New data arrived!', newVal)
-        this.values = newVal
-
-      },
-      deep: true
-    }
-  }
+//since the data is being passed from the parent as a prop, there is no need to declare the data is data(){return{data}}!
 };
-
 </script>
 
 <style scoped></style>
