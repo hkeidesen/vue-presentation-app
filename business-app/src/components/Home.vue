@@ -1,6 +1,41 @@
 <template>
   <div class="weather-card">
-    <p>Hello</p>
+    <p>
+      Værmelding for Sluppen, {{ getDaysAhead(0)["dateNameAhead"] }},
+      {{ getDaysAhead()["dateNow"] }}
+    </p>
+    <div class="weather-now">
+      <div class="weather-now iconWeatherNow">
+        <img
+          id="weather weatherNowIcon"
+          :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
+        />
+      </div>
+      <div class="weather-now temp-now">
+        20°
+      </div>
+      <div class="weather-now detailsWeatherNow">
+        <div class="weather-now detailsWeatherNow percipitation">Regn: 2%</div>
+        <div class="weather-now detailsWeatherNow humidity">Fuktighet: 6%</div>
+        <div class="weather-now detailsWeatherNow wind">Vind: 4 m/s</div>
+      </div>
+    </div>
+    <div class="temperature-graph">
+      <WeatherGraph
+        :temperatureDataToPlot="[
+          { time: '00:00', temperature: -3.9 },
+          { time: '00:02', temperature: -4.1 },
+          { time: '00:03', temperature: 3.8 },
+          { time: '00:04', temperature: 3.5 },
+          { time: '00:05', temperature: 4.2 },
+          { time: '00:06', temperature: 4.4 },
+          { time: '00:07', temperature: 3.9 },
+          { time: '00:08', temperature: 4.2 },
+          { time: '00:09', temperature: 5.4 },
+          { time: '00:10', temperature: 5.9 },
+        ]"
+      />
+    </div>
     <div class="weather-objects">
       <div class="detailed-weather">
         <p class="day">{{ getDaysAhead(1)["dateNameAhead"].slice(0, 10) }}</p>
@@ -69,7 +104,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(3)["dateAhead"].slice(0, 10)
               )["min_temp"]
-            }}°C
+            }}°
           </div>
           <div class="tHigh">
             {{
@@ -103,7 +138,7 @@
               getHighAndLowTemperatures(
                 getDaysAhead(4)["dateAhead"].slice(0, 10)
               )["max_temp"]
-            }}°C
+            }}°
           </div>
         </div>
       </div>
@@ -191,9 +226,13 @@
 
 <script>
 import moment from "moment";
+import WeatherGraph from "./WeatherGraph";
+
 export default {
   name: "Home",
-  components: {},
+  components: {
+    WeatherGraph,
+  },
   data() {
     return {
       weatherData: [],
@@ -212,6 +251,7 @@ export default {
       return indexForWeatherReport;
     },
     determineWeatherIcon(idx) {
+      //need an error handler here
       const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
       console.log("icon", icon);
       return icon;
@@ -237,7 +277,8 @@ export default {
       const min_temp = Math.min(...temp_array);
       // console.log('max_temp', Math.max(...temp_array))
       // console.log('temp', temp_array)
-      return { max_temp, min_temp };
+      // console.log('temp_array', temp_array)
+      return { max_temp, min_temp, temp_array };
       // console.log('logging weather data', this.weatherData[indices[0]].data.instant.details.air_temperature);
     },
 
@@ -249,25 +290,27 @@ export default {
       const dateAhead = moment()
         .add(daysAhead, "days")
         .format();
-      return { dateNameAhead, dateAhead };
+      const dateNow = moment().format("MMM Do");
+      return { dateNameAhead, dateAhead, dateNow };
     },
     async fetchWeatherData() {
       const response = await fetch("http://localhost:5002/timeseries");
       const data = await response.json();
       if (response.ok) {
-        console.log("Data fetched sucssefully!");
+        console.log("Data fetched succesfully!");
       }
       return data;
     },
-    cancelAutoUpdate() {
-      clearInterval(this.timer);
-    },
+
   },
   async created() {
     this.weatherData = await this.fetchWeatherData();
     // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
-    this.timer = setInterval(this.fetchWeatherData, 100000);
+    setInterval(
+      async () => (this.weatherData = await this.fetchWeatherData()),
+      10000
+    );
   },
 };
 </script>
@@ -284,14 +327,88 @@ export default {
   flex-direction: column;
   flex: 1;
 }
-.weather-objects {
-  margin-top: auto;
-  border-radius: 15px;
+.weather-now {
+  /* border: solid 1px cyan; */
+  height: 25%;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
 
+.temp-now {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  height: 90%;
+  font-size: 70px;
+  font-weight: 900;
+}
+.detailsWeatherNow {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: flex-start;
+  height: 50%;
+  width: 6em;
+}
+
+.iconWeatherNow {
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  height: 80%;
+}
+.percipitation {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.humidity {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+.wind {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  font-size: 12px;
+  width: 100%;
+}
+
+.temperature-graph {
+  /* border: 1px solid red; */
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+  /* height: 2%; */
+  position: flex-end;
+  /* border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42); */
+}
+.weather-objects {
+  /* border: 1px solid red; */
+  margin-top: 20px;
+  border-radius: 15px;
   height: 30%;
+  /* width: 725px; */
   flex-direction: row;
   display: flex;
-  justify-content: stretch;
+  /* justify-content: stretch; */
+  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .detailed-weather {
   align-items: center;
@@ -356,8 +473,5 @@ img {
   align-items: center;
   color: rgb(29, 29, 29);
   font-size: 18px;
-}
-
-#demo {
 }
 </style>
