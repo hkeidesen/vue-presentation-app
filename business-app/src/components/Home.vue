@@ -294,12 +294,13 @@ export default {
       return { dateNameAhead, dateAhead, dateNow };
     },
     async fetchWeatherData() {
-      const response = await fetch("http://localhost:5002/timeseries");
+      const response = await fetch("https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=63.4308&lon=10.4034");
       const data = await response.json();
       if (response.ok) {
         console.log("Data fetched succesfully!");
+        console.log('response', data.properties.timeseries)
       }
-      return data;
+      return data.properties.timeseries;
     },
 
   },
@@ -309,7 +310,7 @@ export default {
     moment.locale("nb");
     setInterval(
       async () => (this.weatherData = await this.fetchWeatherData()),
-      10000
+      60*60*1000
     );
   },
 };
