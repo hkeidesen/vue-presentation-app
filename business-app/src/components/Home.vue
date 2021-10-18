@@ -12,27 +12,27 @@
         />
       </div>
       <div class="weather-now temp-now">
-        20°
+        {{ weatherData[0]['data']['instant']['details']['air_temperature']}}°
       </div>
       <div class="weather-now detailsWeatherNow">
-        <div class="weather-now detailsWeatherNow percipitation">Regn: 2%</div>
-        <div class="weather-now detailsWeatherNow humidity">Fuktighet: 6%</div>
-        <div class="weather-now detailsWeatherNow wind">Vind: 4 m/s</div>
+        <div class="weather-now detailsWeatherNow percipitation">Regn: {{ weatherData[0]['data']['next_1_hours']['details']['precipitation_amount']}} mm</div>
+        <div class="weather-now detailsWeatherNow humidity">Fuktighet: {{ weatherData[0]['data']['instant']['details']['relative_humidity']}}%</div>
+        <div class="weather-now detailsWeatherNow wind">Vind: {{ weatherData[0]['data']['instant']['details']['wind_speed']}} m/s</div>
       </div>
     </div>
     <div class="temperature-graph">
       <WeatherGraph
         :temperatureDataToPlot="[
-          { time: '00:00', temperature: -3.9 },
-          { time: '00:02', temperature: -4.1 },
-          { time: '00:03', temperature: 3.8 },
-          { time: '00:04', temperature: 3.5 },
-          { time: '00:05', temperature: 4.2 },
-          { time: '00:06', temperature: 4.4 },
-          { time: '00:07', temperature: 3.9 },
-          { time: '00:08', temperature: 4.2 },
-          { time: '00:09', temperature: 5.4 },
-          { time: '00:10', temperature: 5.9 },
+          { time: weatherData[0]['time'].slice(11,16), temperature: weatherData[0]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[1]['time'].slice(11,16), temperature: weatherData[1]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[2]['time'].slice(11,16), temperature: weatherData[2]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[3]['time'].slice(11,16), temperature: weatherData[3]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[4]['time'].slice(11,16), temperature: weatherData[4]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[5]['time'].slice(11,16), temperature: weatherData[5]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[6]['time'].slice(11,16), temperature: weatherData[6]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[7]['time'].slice(11,16), temperature: weatherData[7]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[8]['time'].slice(11,16), temperature: weatherData[8]['data']['instant']['details']['air_temperature'] },
+          { time: weatherData[9]['time'].slice(11,16), temperature: weatherData[9]['data']['instant']['details']['air_temperature'] },
         ]"
       />
     </div>
@@ -356,7 +356,7 @@ export default {
   align-content: stretch;
   align-items: flex-start;
   height: 50%;
-  width: 6em;
+  width: 8em;
 }
 
 .iconWeatherNow {

@@ -2,13 +2,14 @@
   <!-- use a function to determine the max and min bound  -->
   <la-cartesian
     :width="750"
-    :height="100"
-    :bound="[-15, (n) => n + 10]"
+    :height="140"
+    :bound="[-1, (n) => n + 2]"
     :data="temperatureDataToPlot"
   >
     <la-area prop="temperature" 
     animated
-    curve="curveBumpX">
+    curve="curveBumpX"
+    color="#1890ff">
       <!-- <la-area
       prop="temperature"
       color="goldenrod"
