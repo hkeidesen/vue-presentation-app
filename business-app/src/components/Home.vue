@@ -247,13 +247,13 @@ export default {
           return e.time;
         })
         .indexOf(day);
-      console.log("indexForWeatherReport: ", indexForWeatherReport);
+      //console.log("indexForWeatherReport: ", indexForWeatherReport);
       return indexForWeatherReport;
     },
     determineWeatherIcon(idx) {
       //need an error handler here
       const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
-      console.log("icon", icon);
+      //console.log("icon", icon);
       return icon;
     },
     getHighAndLowTemperatures(dateOfInterest) {
@@ -297,8 +297,8 @@ export default {
       const response = await fetch("https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=63.4308&lon=10.4034");
       const data = await response.json();
       if (response.ok) {
-        console.log("Data fetched succesfully!");
-        console.log('response', data.properties.timeseries)
+        //console.log("Data fetched succesfully!");
+        //console.log('response', data.properties.timeseries)
       }
       return data.properties.timeseries;
     },
