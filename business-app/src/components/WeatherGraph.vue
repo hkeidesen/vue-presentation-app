@@ -6,25 +6,8 @@
     :bound="[-1, (n) => n + 2]"
     :data="temperatureDataToPlot"
   >
-    <la-area prop="temperature" 
-    animated
-    curve="curveBumpX"
-    color="#1890ff">
-      <!-- <la-area
-      prop="temperature"
-      color="goldenrod"
-      animated="true"
-      curve="curveBumpX"
-      :width="2"
-    > -->
+    <la-area prop="temperature" animated curve="curveBumpX" color="#1890ff">
       <g slot-scope="props" :fill="props.color">
-        <!-- <rect
-          :x="props.x - 5"
-          :y="props.y - 5"
-          width="5"
-          height="5"
-          >
-        </rect> -->
         <text :x="props.x" :y="props.y" text-anchor="middle" dy="-.5em">
           {{ props.value }}
         </text>
@@ -49,7 +32,7 @@ export default {
     LaArea: Area,
     LaXAxis: XAxis,
   },
-//since the data is being passed from the parent as a prop, there is no need to declare the data is data(){return{data}}!
+  //since the data is being passed from the parent as a prop, there is no need to declare the data is data(){return{data}}!
 };
 </script>
 

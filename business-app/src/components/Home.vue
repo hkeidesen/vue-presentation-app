@@ -241,15 +241,6 @@ export default {
   },
 
   methods: {
-    getIndexOfDayOfInterest(day) {
-      const indexForWeatherReport = this.weatherData
-        .map(function(e) {
-          return e.time;
-        })
-        .indexOf(day);
-      //console.log("indexForWeatherReport: ", indexForWeatherReport);
-      return indexForWeatherReport;
-    },
     determineWeatherIcon(idx) {
       //need an error handler here
       const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
