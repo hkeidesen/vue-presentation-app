@@ -4,35 +4,62 @@
       Værmelding for Sluppen, {{ getDaysAhead(0)["dateNameAhead"] }},
       {{ getDaysAhead()["dateNow"] }}
     </p>
-    <div class="weather-now">
-      <div class="weather-now iconWeatherNow">
-        <img
-          id="weather weatherNowIcon"
-          :src="require(`../assets/icons/${determineWeatherIcon(1)}.png`)"
-        />
-      </div>
-      <div class="weather-now temp-now">
-        {{ weatherData[0]['data']['instant']['details']['air_temperature']}}°
-      </div>
-      <div class="weather-now detailsWeatherNow">
-        <div class="weather-now detailsWeatherNow percipitation">Regn: {{ weatherData[0]['data']['next_1_hours']['details']['precipitation_amount']}} mm</div>
-        <div class="weather-now detailsWeatherNow humidity">Fuktighet: {{ weatherData[0]['data']['instant']['details']['relative_humidity']}}%</div>
-        <div class="weather-now detailsWeatherNow wind">Vind: {{ weatherData[0]['data']['instant']['details']['wind_speed']}} m/s</div>
-      </div>
+    <div >
+      <WeatherNow :weatherData="weatherData" />
     </div>
-    <div class="temperature-graph">
+    <div>
       <WeatherGraph
         :temperatureDataToPlot="[
-          { time: weatherData[0]['time'].slice(11,16), temperature: weatherData[0]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[1]['time'].slice(11,16), temperature: weatherData[1]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[2]['time'].slice(11,16), temperature: weatherData[2]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[3]['time'].slice(11,16), temperature: weatherData[3]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[4]['time'].slice(11,16), temperature: weatherData[4]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[5]['time'].slice(11,16), temperature: weatherData[5]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[6]['time'].slice(11,16), temperature: weatherData[6]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[7]['time'].slice(11,16), temperature: weatherData[7]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[8]['time'].slice(11,16), temperature: weatherData[8]['data']['instant']['details']['air_temperature'] },
-          { time: weatherData[9]['time'].slice(11,16), temperature: weatherData[9]['data']['instant']['details']['air_temperature'] },
+          {
+            time: weatherData[0]['time'].slice(11, 16),
+            temperature:
+              weatherData[0]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[1]['time'].slice(11, 16),
+            temperature:
+              weatherData[1]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[2]['time'].slice(11, 16),
+            temperature:
+              weatherData[2]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[3]['time'].slice(11, 16),
+            temperature:
+              weatherData[3]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[4]['time'].slice(11, 16),
+            temperature:
+              weatherData[4]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[5]['time'].slice(11, 16),
+            temperature:
+              weatherData[5]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[6]['time'].slice(11, 16),
+            temperature:
+              weatherData[6]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[7]['time'].slice(11, 16),
+            temperature:
+              weatherData[7]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[8]['time'].slice(11, 16),
+            temperature:
+              weatherData[8]['data']['instant']['details']['air_temperature'],
+          },
+          {
+            time: weatherData[9]['time'].slice(11, 16),
+            temperature:
+              weatherData[9]['data']['instant']['details']['air_temperature'],
+          },
         ]"
       />
     </div>
@@ -227,11 +254,13 @@
 <script>
 import moment from "moment";
 import WeatherGraph from "./WeatherGraph";
+import WeatherNow from "./WeatherNow";
 
 export default {
   name: "Home",
   components: {
     WeatherGraph,
+    WeatherNow,
   },
   data() {
     return {
@@ -241,19 +270,13 @@ export default {
   },
 
   methods: {
-    getIndexOfDayOfInterest(day) {
-      const indexForWeatherReport = this.weatherData
-        .map(function(e) {
-          return e.time;
-        })
-        .indexOf(day);
-      //console.log("indexForWeatherReport: ", indexForWeatherReport);
-      return indexForWeatherReport;
-    },
     determineWeatherIcon(idx) {
-      //need an error handler here
+      if (this.weatherData === []) {
+        //assigning an arbitrary icon before the weatherData array is populated
+        const icon = "cloudy.png";
+        return icon;
+      }
       const icon = this.weatherData[idx].data.next_12_hours.summary.symbol_code;
-      //console.log("icon", icon);
       return icon;
     },
     getHighAndLowTemperatures(dateOfInterest) {
@@ -294,17 +317,20 @@ export default {
       return { dateNameAhead, dateAhead, dateNow };
     },
     async fetchWeatherData() {
-      const response = await fetch("https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=63.4308&lon=10.4034");
+      const response = await fetch(
+        // 'http://localhost:5002/timeseries/'
+        "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=63.4308&lon=10.4034"
+      );
       const data = await response.json();
       if (response.ok) {
-        //console.log("Data fetched succesfully!");
+        console.log("Data fetched succesfully!");
         //console.log('response', data.properties.timeseries)
       }
       return data.properties.timeseries;
     },
-
   },
   async created() {
+    //clear the array before populating it
     this.weatherData = await this.fetchWeatherData();
     // console.log(this.weatherData[0].data.next_6_hours.details.air_temperature_min)
     moment.locale("nb");
@@ -322,91 +348,24 @@ export default {
   margin-left: 25px;
   width: 750px;
   height: 500px;
-  /* border: solid 2px red; */
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
-.weather-now {
-  /* border: solid 1px cyan; */
-  height: 25%;
-  width: 50%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-content: center;
-  align-items: center;
-}
-
-.temp-now {
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-  height: 90%;
-  font-size: 70px;
-  font-weight: 900;
-}
-.detailsWeatherNow {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-content: stretch;
-  align-items: flex-start;
-  height: 50%;
-  width: 8em;
-}
-
-.iconWeatherNow {
-  order: 0;
-  flex: 1 1 auto;
-  align-self: auto;
-  height: 80%;
-}
-.percipitation {
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-  font-size: 12px;
-  width: 100%;
-}
-.humidity {
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-  font-size: 12px;
-  width: 100%;
-}
-.wind {
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-  font-size: 12px;
-  width: 100%;
-}
 
 .temperature-graph {
-  /* border: 1px solid red; */
   order: 0;
   flex: 0 1 auto;
   align-self: auto;
-  /* height: 2%; */
   position: flex-end;
-  /* border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42);
-  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.42); */
 }
 .weather-objects {
-  /* border: 1px solid red; */
   margin-top: 20px;
   border-radius: 15px;
   height: 30%;
-  /* width: 725px; */
   flex-direction: row;
   display: flex;
-  /* justify-content: stretch; */
   padding: 4px;
   padding-left: 4px;
   padding-right: 4px;

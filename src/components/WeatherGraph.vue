@@ -8,7 +8,7 @@
   >
     <la-area prop="temperature" 
     animated
-    curve="curveBumpX"
+    :curve="curveBumpX"
     color="#1890ff">
       <!-- <la-area
       prop="temperature"
