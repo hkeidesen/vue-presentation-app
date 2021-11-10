@@ -6,10 +6,10 @@
     :bound="[determineLowestBoundInGraph, (n) => n + 2]"
     :data="temperatureDataToPlot"
   >
-    <la-area prop="temperature" 
+    <la-line prop="temperature" 
     animated
     curve="curveBumpX"
-    color="#1890ff">
+    color="#c60000">
       <!-- <la-area
       prop="temperature"
       color="goldenrod"
@@ -29,13 +29,13 @@
           {{ props.value }}
         </text>
       </g>
-    </la-area>
+    </la-line>
     <la-x-axis prop="time" :tickSize="5"></la-x-axis>
   </la-cartesian>
 </template>
 
 <script>
-import { Cartesian, Area, XAxis } from "laue"; //see https://laue.js.org
+import { Cartesian,  XAxis, Line } from "laue"; //see https://laue.js.org
 
 export default {
   name: "WeatherGraph",
@@ -51,8 +51,9 @@ export default {
   },
   components: {
     LaCartesian: Cartesian,
-    LaArea: Area,
+    
     LaXAxis: XAxis,
+    LaLine: Line
   },
 //since the data is being passed from the parent as a prop, there is no need to declare the data is data(){return{data}}!
 };
